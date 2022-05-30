@@ -141,7 +141,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String evaluate(String expression) throws ScriptException {
         String result = engine.eval(expression).toString();
         BigDecimal decimal = new BigDecimal(result);
-        return decimal.setScale(1, BigDecimal.ROUND_HALF_UP).toPlainString();
+        //return decimal.setScale(1, BigDecimal.ROUND_HALF_UP).toPlainString();
+        if (decimal.signum() == 0 || decimal.scale() <= 0 || decimal.stripTrailingZeros().scale() <= 0){
+            return decimal.setScale(0, BigDecimal.ROUND_HALF_UP).toPlainString();
+        }else{
+            return decimal.setScale(1, BigDecimal.ROUND_HALF_UP).toPlainString();
+        }
+
 
     }
 
